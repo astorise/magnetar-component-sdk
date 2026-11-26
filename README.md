@@ -56,10 +56,22 @@ Component. The shared decoder blocks (normalization, rotary embedding,
 attention, gated MLP, mixture of experts) and the configuration helpers follow,
 Component by Component, each migration keeping the graph it emits byte for byte.
 
-## Where it lives in Magnetar
+## Using it
 
-Pinned as a submodule at `components/sdk`, beside the Components that depend on
-it by relative path (`../sdk`), as the loaders depend on the Runtime.
+While the API settles, a Component names the crate as a git dependency pinned
+by commit, and its committed `Cargo.lock` records it:
+
+```toml
+[dependencies]
+magnetar-component-sdk = { git = "https://github.com/astorise/magnetar-component-sdk", rev = "<commit>" }
+```
+
+Never a branch or a tag: they move, and the Component's build would move with
+them. Taking a newer commit is a pull request of the Component's own. Once the
+API has been through the Components and is stable, the crate is published to
+crates.io and Components depend on it by version. Changes to the crate stay
+additive (a default on a new method), so a Component on an older commit keeps
+building.
 
 ## Checks
 
