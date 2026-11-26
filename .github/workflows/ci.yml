@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, claude/charming-lamport-1b9m74]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Install the pinned Rust toolchain and the Component target
+        run: |
+          rustup toolchain install 1.100.0 --profile minimal --component rustfmt --component clippy
+          rustup target add wasm32-wasip2 --toolchain 1.100.0
+      - name: Check formatting
+        run: cargo +1.100.0 fmt -- --check
+      - name: Clippy
+        run: cargo +1.100.0 clippy --locked --all-targets -- -D warnings
+      - name: Test
+        run: cargo +1.100.0 test --locked
+      - name: Documentation
+        env:
+          RUSTDOCFLAGS: -D warnings
+        run: cargo +1.100.0 doc --locked --no-deps
+      - name: Build for the Components' target
+        run: cargo +1.100.0 build --locked --target wasm32-wasip2

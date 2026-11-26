@@ -1,0 +1,15 @@
+[workspace]
+
+[package]
+name = "magnetar-component-sdk"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Shared building blocks for Magnetar Model Components: the graph description, the graph-builder sink and its WIT adapter, and a recording test double."
+repository = "https://github.com/astorise/magnetar-component-sdk"
+readme = "README.md"
+keywords = ["ai", "inference", "magnetar"]
+categories = ["science", "wasm"]
+rust-version = "1.98"
+
+[dependencies]
